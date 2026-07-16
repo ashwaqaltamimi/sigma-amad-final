@@ -1,0 +1,39 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+
+# Office temp/lock files
+~$*
+
+# Generated runtime outputs
+sigma_feedback_memory.csv
+sigma_review_log.csv
+
+# Non-app assets (decks, exports, screenshots)
+*.pptx
+*.pdf
+*.png
+
+# Text notes — keep only requirements.txt
+*.txt
+!requirements.txt
+
+# Internal project docs & strategy — never deploy
+AGENTS_DEFENSE.md
+CONTEXT.md
+demo_script.md
+judges_pitch_3min.md
+judges_qa_bank.md
+REVIEW_ACTION_PLAN.md
+docs/
+.jez/
+.claude/
+
+# Build scripts & prototypes — not part of the app
+build_deck.py
+build_amad_preliminary_deck.py
+pipeline_demo.py
+sample_banking_data.csv
+run_sigma.bat
+sigma_prototype*.html
