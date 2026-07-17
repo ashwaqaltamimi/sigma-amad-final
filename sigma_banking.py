@@ -152,6 +152,29 @@ def inject_styles():
     html, body, [class*="css"], h1,h2,h3,h4,p,div,span,label,input,button {
         font-family: 'IBM Plex Sans Arabic', sans-serif !important;
     }
+    /* استثناء أيقونات Material — لا يُحذف.
+       القاعدة أعلاه تفرض الخط العربي على كل <span> بـ !important، وستريمليت
+       الحديث يرسم أيقوناته (سهم الموسّع، أيقونة الرفع) عبر <span> يحمل اسم
+       الرباط نصًّا ويعتمد على خط Material لتحويله إلى أيقونة. فرض الخط العربي
+       يقتل التحويل، فتُطبع الكلمة نفسها (upload / keyboard_arrow_right) فوق
+       العنوان العربي وتتداخل معه. الاستثناء يعيد لكل أيقونة خطّها.
+       تحقّق حي: قبل الاستثناء كان خط الأيقونة "IBM Plex Sans Arabic" وبعده
+       "Material Symbols Rounded". */
+    [data-testid="stIconMaterial"],
+    [data-testid="stExpanderToggleIcon"],
+    span.material-symbols-rounded, span.material-symbols-outlined,
+    span.material-icons,
+    [class*="material-symbols"], [class*="material-icons"] {
+        font-family: 'Material Symbols Rounded', 'Material Symbols Outlined',
+                     'Material Icons' !important;
+        font-weight: normal !important;
+        font-style: normal !important;
+        letter-spacing: normal !important;
+        text-transform: none !important;
+        white-space: nowrap !important;
+        direction: ltr !important;
+        font-feature-settings: 'liga' !important;
+    }
 
     /* إخفاء السايدبار بالكامل */
     [data-testid="stSidebar"],
@@ -1630,28 +1653,33 @@ def page_landing():
         Sigma AI &nbsp;·&nbsp; هاكاثون امد 2026 &nbsp;·&nbsp; مصرف الإنماء × أكاديمية طويق
       </div>
       <div style="font-size:3.2rem;font-weight:800;color:#0E1C30;line-height:1.3;">
-        غسيل الأموال لا يعيش في عملية واحدة —<br>
-        <span style="color:#C0392B;">بل في شبكة حسابات خفية</span>
+        التقصير لا يبدأ بسوء نية — بل بالزحام<br>
+        <span style="color:#C0392B;">والغرامة تصل إلى 5 ملايين ريال عن كل مخالفة</span>
       </div>
-      <div style="font-size:1.15rem;color:#44607E;margin-top:20px;line-height:2;max-width:720px;">
+      <div style="font-size:1.15rem;color:#44607E;margin-top:20px;line-height:2;max-width:760px;">
         بنك سعودي واحد يرفع
         <strong style="color:#0E1C30;">33 ألف بلاغ اشتباه شهرياً</strong>
         — ولا يُثبَت منها إلا
-        <strong style="color:#C0392B;">أقل من 3%</strong>.
-        الفجوة في الفرز والترابط. سيقما يكشف الشبكة، يربطها بالمادة النظامية،
-        و<strong style="color:#1E7D58;">يتذكّر كل قرار مراجعة عبر الجلسات.</strong>
+        <strong style="color:#C0392B;">أقل من 3%</strong>،
+        فيغرق المحقق في الزحام وتمرّ الشبكة الحقيقية. وعند ثبوت التقصير، تُجيز
+        <strong style="color:#0E1C30;">المادة 25</strong>
+        للبنك المركزي الغرامة وعقوبات تطال المسؤولين أنفسهم.
+        <br>
+        سيقما يكشف الشبكة ويربطها بمادتها النظامية — و<strong style="color:#1E7D58;">كنزه
+        الحقيقي ذاكرة تحفظ كل قرار مراجعة، فيبدأ كل يوم أذكى من أمسه.</strong>
       </div>
     </div>
     """, unsafe_allow_html=True)
 
     # ── بطاقات الأرقام ────────────────────────────────────────────────
     # الترتيب من اليمين لليسار (RTL): أول بطاقة في العمود الأيمن
+    # الذاكرة أولاً (العمود الأيمن) — هي الكنز الفارق، لا الشبكة ولا الطبقات.
     v1, v2, v3 = st.columns(3)
     with v3:
         st.markdown(_card.format(
-            border="rgba(217,83,79,0.4)", color="#C0392B",
-            num="68,750 ريال", title="شبكة غسيل خفية كشفها سيقما",
-            src="6 مرسلين ← حساب تجميع ← تمرير خارجي في 49 ساعة"), unsafe_allow_html=True)
+            border="rgba(201,162,39,0.4)", color="#8A6D0F",
+            num="78.7% ← 82.2%", title="ذاكرة تصمد عبر الجلسات — كنز سيقما",
+            src="قرار مراجعة واحد · F1 يصل 88.1% قبل لمس أي زر"), unsafe_allow_html=True)
     with v2:
         st.markdown(_card.format(
             border="rgba(46,143,110,0.5)", color="#1E7D58",
@@ -1659,9 +1687,9 @@ def page_landing():
             src="إحصائي ← قواعد AML + تصنيف مخاطر ← تحليل شبكي"), unsafe_allow_html=True)
     with v1:
         st.markdown(_card.format(
-            border="rgba(201,162,39,0.4)", color="#8A6D0F",
-            num="78.7% ← 82.2%", title="دقة تصمد وترتفع عبر الجلسات",
-            src="قرار مراجعة واحد · F1 يصل 88.1% قبل لمس أي زر"), unsafe_allow_html=True)
+            border="rgba(217,83,79,0.4)", color="#C0392B",
+            num="68,750 ريال", title="شبكة غسيل خفية كشفها سيقما",
+            src="6 مرسلين ← حساب تجميع ← تمرير خارجي في 49 ساعة"), unsafe_allow_html=True)
 
     # ── كيف يعمل سيجما ───────────────────────────────────────────────
     st.markdown("<br>", unsafe_allow_html=True)
@@ -1679,9 +1707,11 @@ def page_landing():
                  "التي تغيب عن فحص العملية الواحدة"), unsafe_allow_html=True)
     with s1:
         st.markdown(_step.format(accent="#1E7D58", n="03",
-            title="ذاكرة تتعلّم وتصمد",
-            desc="يحفظ كل قرار من المراجع البشري ويتعلّم منه، "
-                 "فيبدأ كل جلسة أذكى — لا من الصفر"), unsafe_allow_html=True)
+            title="الذاكرة الذهبية — قاعدة معرفة تكبر مع البنك",
+            desc="كل قرار مراجعة يُحفظ ويُطبَّق تلقائيًا في كل تشغيل قادم، "
+                 "فتُقفل الإنذارات الكاذبة وتبقى خبرة المحققين داخل البنك "
+                 "بعد انتقالهم — أصل يزداد قيمة، لا نظام يَبلى"),
+            unsafe_allow_html=True)
 
     # ── زر الانتقال للأداة ───────────────────────────────────────────
     st.markdown("<br><br>", unsafe_allow_html=True)
