@@ -190,6 +190,23 @@ def inject_styles():
         direction: rtl;
     }
 
+    /* ⚠️ المحاذاة: ضبط direction وحده لا يكفي.
+       نسخة ستريمليت على السحابة تفرض `text-align: left` على محتوى الماركداون،
+       فيخرج النص باتجاه RTL صحيح (bidi سليم — «Sigma AI» تقع أقصى يمين سطرها)
+       لكنه ملتصق بالحافة اليسرى: العنوان الرئيسي يبدأ من اليسار.
+       `start` تعني اليمين في RTL واليسار في LTR، فتصحّح المحاذاة منطقياً.
+       بلا !important عمداً: العناصر المركزية تحمل text-align:center مضمّناً
+       (inline) فيبقى أقوى ولا تنكسر — التذييل وسطر «ارفع ملفك أو جرّب…».
+       ⚠️ لا يظهر هذا العطل محلياً على streamlit 1.35 (يحسب `start` أصلاً) —
+       يظهر على نسخة السحابة وحدها. تُقاس المحاذاة على الرابط الحي لا محلياً. */
+    [data-testid="stMarkdown"], [data-testid="stMarkdownContainer"],
+    [data-testid="stMarkdownContainer"] > div,
+    [data-testid="stMarkdownContainer"] p,
+    [data-testid="stMarkdownContainer"] li,
+    [data-testid="stAlert"], [data-testid="stAlert"] div {
+        text-align: start;
+    }
+
     /* ⚠️ صفوف الأعمدة تبقى LTR — لا تُغيَّر.
        الكود يضع البطاقة الأولى عمداً في العمود الأخير (v3/s3) لأن ترتيب LTR
        يجعله على اليمين. لو ورث الصف اتجاه RTL لانعكس الترتيب مرة ثانية فتقفز
