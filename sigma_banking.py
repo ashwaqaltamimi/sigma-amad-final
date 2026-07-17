@@ -176,6 +176,36 @@ def inject_styles():
         font-feature-settings: 'liga' !important;
     }
 
+    /* ── الاتجاه الأساسي: عربي من اليمين لليسار ─────────────────────────
+       الواجهة عربية بالكامل، فالأساس RTL. قبل ذلك كان الأساس LTR ويُصحَّح
+       يدوياً عبر dir='rtl' داخل كل بطاقة HTML — فتبقى مكوّنات ستريمليت نفسها
+       (رافع الملفات، الموسّعات، التبويبات، التنبيهات) مرتّبة من اليسار. */
+    [data-testid="stApp"], [data-testid="stAppViewContainer"],
+    [data-testid="stMain"], .block-container,
+    [data-testid="stVerticalBlock"], [data-testid="stVerticalBlockBorderWrapper"],
+    [data-testid="stMarkdown"], [data-testid="stMarkdownContainer"],
+    [data-testid="stAlert"], [data-testid="stExpander"],
+    [data-testid="stFileUploader"], [data-testid="stStatusWidget"],
+    [data-testid="stToast"], [data-baseweb="select"], [data-baseweb="popover"] {
+        direction: rtl;
+    }
+
+    /* ⚠️ صفوف الأعمدة تبقى LTR — لا تُغيَّر.
+       الكود يضع البطاقة الأولى عمداً في العمود الأخير (v3/s3) لأن ترتيب LTR
+       يجعله على اليمين. لو ورث الصف اتجاه RTL لانعكس الترتيب مرة ثانية فتقفز
+       البطاقة الأولى إلى اليسار. نُثبّت الصف على LTR ونعيد RTL داخل كل عمود:
+       الترتيب البصري يبقى كما هو، والنص داخله عربي الاتجاه. */
+    [data-testid="stHorizontalBlock"] { direction: ltr; }
+    [data-testid="column"] { direction: rtl; }
+
+    /* عناصر تبقى LTR بطبيعتها: الرسوم (أرقام ومحاور لاتينية — قلبها يكسر
+       الرسم الشبكي)، والشيفرة، والجداول. */
+    [data-testid="stPlotlyChart"], .js-plotly-plot, .plotly, .svg-container,
+    [data-testid="stDataFrame"], [data-testid="stDataFrameResizable"],
+    [data-testid="stTable"], pre, code, [data-testid="stCode"] {
+        direction: ltr;
+    }
+
     /* إخفاء السايدبار بالكامل */
     [data-testid="stSidebar"],
     [data-testid="collapsedControl"],
