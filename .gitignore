@@ -31,8 +31,9 @@ docs/
 .claude/
 
 # Build scripts & prototypes — not part of the app
-build_deck.py
-build_amad_preliminary_deck.py
+# (أنماط لا أسماء: أي سكربت بناء/تحجيم جديد يُستثنى تلقائياً)
+build_*.py
+scale_*.py
 pipeline_demo.py
 sample_banking_data.csv
 run_sigma.bat
